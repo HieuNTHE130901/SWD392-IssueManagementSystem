@@ -37,8 +37,8 @@
         <servlet-class>controller.testServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewIssueServlet</servlet-name>
-        <servlet-class>controller.ViewIssueServlet</servlet-class>
+        <servlet-name>ManageIssueServlet</servlet-name>
+        <servlet-class>controller.ManageIssueServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddIssueServlet</servlet-name>
@@ -114,7 +114,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SignoutServlet</servlet-name>
-        <url-pattern>/signout</url-pattern>
+        <url-pattern>/sign-out</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
@@ -125,7 +125,7 @@
         <url-pattern>/test</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewIssueServlet</servlet-name>
+        <servlet-name>ManageIssueServlet</servlet-name>
         <url-pattern>/manage-issue</url-pattern>
     </servlet-mapping>
     <servlet-mapping>

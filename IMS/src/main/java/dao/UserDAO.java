@@ -13,34 +13,61 @@ public class UserDAO {
         dbContext = new DBContext();
     }
 
-    // User login
-    public User login(String email, String password) {
+    // User login with email
+    public User loginWithEmail(String email, String password) {
+        User user = null;
+
         try (Connection connection = dbContext.getConnection()) {
-            String query = "SELECT user_id, full_name, user_role FROM User WHERE email = ? AND password = ?";
+            String query = "SELECT * FROM User WHERE email = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
-
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                int userId = resultSet.getInt("user_id");
-                String fullName = resultSet.getString("full_name");
-                String userRole = resultSet.getString("user_role");
-
-                User user = new User();
-                user.setUserId(userId);
-                user.setFullName(fullName);
-                user.setEmail(email);
-                user.setUserRole(userRole);
-
-                return user;
+                user = extractUserFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return null; // Return null if login fails
+        return user;
+    }
+
+    // User login with mobile
+    public User loginWithMobile(String mobile, String password) {
+        User user = null;
+
+        try (Connection connection = dbContext.getConnection()) {
+            String query = "SELECT * FROM User WHERE mobile = ? AND password = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, mobile);
+            preparedStatement.setString(2, password);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                user = extractUserFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    // Extract user data from a ResultSet
+    private User extractUserFromResultSet(ResultSet resultSet) throws SQLException {
+        User user = new User();
+        user.setUserId(resultSet.getInt("user_id"));
+        user.setFullName(resultSet.getString("full_name"));
+        user.setEmail(resultSet.getString("email"));
+        user.setMobile(resultSet.getString("mobile"));
+        user.setPassword(resultSet.getString("password"));
+        user.setAvatarImage(resultSet.getString("avatar_image"));
+        user.setVerificationCode(resultSet.getString("verification_code"));
+        user.setIsVerified(resultSet.getBoolean("is_verified"));
+        user.setUserRole(resultSet.getString("user_role"));
+        return user;
     }
 
     // Register a new user
@@ -66,9 +93,29 @@ public class UserDAO {
             return false;
         }
     }
+    public boolean isEmailFromPermittedDomain(String email) {
+    // Extract the domain from the email
+    String[] parts = email.split("@");
+    if (parts.length == 2) {
+        String domain = parts[1];
 
-    // Other user-related methods (e.g., fetching user information)
-    // ...
+        // Query the database to check if the domain is in the permitted domains
+        String sql = "SELECT setting_value FROM systemsettings WHERE setting_name = 'permitted_domain' AND setting_value = ?";
+        try (Connection connection = dbContext.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
-    // You can add more methods here for other user-related SQL operations
+            preparedStatement.setString(1, "@" + domain);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // If a record is found, the domain is permitted
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any database errors here
+        }
+    }
+
+    return false; // If the domain is not found in the database, it's not permitted
+}
+
 }

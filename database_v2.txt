@@ -123,10 +123,10 @@ CREATE TABLE SystemSettings (
 -- Insert sample records into the User table
 INSERT INTO User (full_name, email, mobile, password, avatar_image, verification_code, is_verified, user_role)
 VALUES
-('admin', 'admin@admin.admin', '999999999', '999999999', 'avatar1.jpg', 'ABC123', 1, 'Admin'),
- ('manager', 'manager@manager.manager', '88888888', '88888888', 'avatar1.jpg', 'ABC123', 1, 'Manager'),
- ('teacher', 'teacher@teacher.teacher', '7777777', '7777777', 'avatar1.jpg', 'ABC123', 1, 'Teacher'),
- ('student', 'student@student.student', '666666', '666666', 'avatar1.jpg', 'ABC123', 1, 'Student'),
+('admin', 'admin@ims.com', '9999999999', '999999999', 'avatar1.jpg', 'ABC123', 1, 'Admin'),
+ ('manager', 'manager@ims.com', '8888888888', '88888888', 'avatar1.jpg', 'ABC123', 1, 'Manager'),
+ ('teacher', 'teacher@ims.com', '7777777', '7777777', 'avatar1.jpg', 'ABC123', 1, 'Teacher'),
+ ('student', 'student@ims.com', '666666', '666666', 'avatar1.jpg', 'ABC123', 1, 'Student'),
     ('John Doe', 'john@example.com', '1234567890', 'password1', 'avatar1.jpg', 'verification_code1', 1, 'Student'),
     ('Jane Smith', 'jane@example.com', '9876543210', 'password2', 'avatar2.jpg', 'verification_code2', 1, 'Student'),
     ('Alice Johnson', 'alice@example.com', '5551234567', 'password3', 'avatar3.jpg', 'verification_code3', 1, 'Student'),
@@ -274,4 +274,13 @@ VALUES
     ('Setting 2', 'Value 2'),
     ('Setting 3', 'Value 3'),
     ('Setting 4', 'Value 4'),
-    ('Setting 5', 'Value 5');
+    ('Setting 5', 'Value 5'),
+    ('permitted_domain', '@gmail.com');
+
+INSERT INTO systemsettings (setting_name, setting_value) VALUES
+('permitted_domain', '@admin.admin'),
+('permitted_domain', '@example.com'),
+('permitted_domain', '@ims.com'),
+('permitted_domain', '@student.student'),
+('permitted_domain', '@manager.manager'),
+('permitted_domain', '@teacher.teacher');
