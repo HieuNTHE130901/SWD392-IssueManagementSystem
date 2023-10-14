@@ -9,7 +9,7 @@ public class DBContext {
     // JDBC URL, username, and password of MySQL server
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/issue_management_system_v2";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "";
 
     private Connection connection; // Store the database connection
 
@@ -47,4 +47,6 @@ public class DBContext {
             e.printStackTrace();
         }
     }
+   
+    
 }

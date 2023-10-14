@@ -1,5 +1,5 @@
-model\SubjectAssignment.class
 model\Subject.class
+controller\ManageIssueServlet.class
 controller\ViewProjectDashboardServlet.class
 dao\IssueDAO.class
 controller\UserStudentServlet.class
@@ -14,7 +14,6 @@ controller\AddIssueServlet.class
 model\Milestone.class
 controller\ManageProjectServlet.class
 controller\SignoutServlet.class
-model\IssueLink.class
 model\User.class
 model\ProjectMember.class
 controller\LoginServlet.class
@@ -29,10 +28,10 @@ model\Issue.class
 dao\DBContext.class
 model\ClassMilestone.class
 model\Project.class
+model\Assignment.class
 controller\UserManagerServlet.class
 controller\UserTeacherServlet.class
 controller\AboutUsServlet.class
 test\test.class
 controller\RegisterServlet.class
 controller\HomeServlet.class
-controller\ViewIssueServlet.class

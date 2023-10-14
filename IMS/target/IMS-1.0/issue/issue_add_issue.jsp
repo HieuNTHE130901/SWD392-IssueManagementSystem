@@ -57,7 +57,7 @@
                             </div>
                             <div class="col-lg-2 col-12">
                                 <div class="get-quote">
-                                    <a href="/IMS/signout" class="btn">Sign out</a>
+                                    <a href="/IMS/sign-out" class="btn">Sign out</a>
                                 </div>
                             </div>
                         </div>

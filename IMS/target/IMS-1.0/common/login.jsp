@@ -62,50 +62,71 @@
         </header>
         <!-- End Header Area -->       
 
-        <div class="col-3" style="margin: 0 auto; padding-top: 50px;background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 10px; "">
+        <div class="col-3" style="margin: 0 auto; padding-top: 50px; background-color: #f5f5f5; border: 1px solid #ccc; border-radius: 10px;">
             <div class="div-center">
                 <div class="content">
-                    <h3 >Login</h3>
+                    <h3>Login</h3>
                     <hr />
                     <form action="" method="post">
                         <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                            <label for="emailOrMobile">Email or Mobile</label>
+                            <input type="text" name="emailOrMobile" class="form-control" id="exampleInputEmail1" placeholder="Email or Mobile">
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
                             <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-primary" value="Login">Login</button>
-                        <hr/>
-                        <button type="button" class="btn btn-link" id="signupButton" style="background-color: #FF7F50; ">Signup</button>
+                        <br>
+                        <!-- Create a Google Sign-In button -->
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        <hr />
+                        <button type="button" class="btn btn-link" id="signupButton" style="background-color: #FF7F50;">Signup</button>
                         <hr>
                         <button type="button" class="btn btn-link" id="resetPasswordButton" style="background-color: #50BF44;">Reset Password</button>
+                        <br>
+                        <script src="https://apis.google.com/js/platform.js" async defer></script>
+                        <!-- Configure Google Sign-In -->
+                        <meta name="google-signin-scope" content="profile email">
+                        <meta name="google-signin-client_id" content="817724479118-go7u28tnlmhl67vuuc602ma8oerp87o9.apps.googleusercontent.com">
+                        
+                        <!-- Implement the onSignIn function to handle Google login -->
+                        <script>
+                            function onSignIn(googleUser) {
+                                // Get the user's profile information
+                                var profile = googleUser.getBasicProfile();
+                                // Send the user's email to your server for validation
+                                var email = profile.getEmail();
+                                // Validate the email domain
+                                if (isEmailFromPermittedDomain(email)) {
+                                    // Email domain is permitted, implement logic to log in with the email provided by Google
+                                    // ...
+                                    // Redirect or perform other actions based on successful login
+                                } else {
+                                    // Email domain is not permitted, prevent login or display an error message
+                                    // ...
+                                }
+                            }
+                        </script>
                         <script>
                             // Get the "Signup" button element by its ID
                             const signupButton = document.getElementById('signupButton');
-
                             // Add a click event listener to navigate to /sign-up when the button is clicked
                             signupButton.addEventListener('click', function () {
                                 window.location.href = '/IMS/register'; // Redirect to /sign-up
                             });
-
                             // Get the "Reset Password" button element by its ID
                             const resetPasswordButton = document.getElementById('resetPasswordButton');
-
                             // Add a click event listener to navigate to /change-password when the button is clicked
                             resetPasswordButton.addEventListener('click', function () {
                                 window.location.href = '/IMS/change-password'; // Redirect to /change-password
                             });
                         </script>
-
-
-                        <br>
                     </form>
                 </div>
-                </span>
             </div>
         </div>
+
 
 
         <!-- Footer Area -->
