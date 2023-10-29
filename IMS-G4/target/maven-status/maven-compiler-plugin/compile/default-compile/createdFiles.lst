@@ -11,10 +11,14 @@ model\Class.class
 service\CommonServices.class
 control\user\StudentServlet.class
 model\Semester.class
+control\issue\ViewIssueDetailServlet.class
 dal\SemesterDAO.class
+dal\AssignmentDAO.class
+dal\SystemSettingDAO.class
 model\Milestone.class
 model\User.class
 control\ViewProfileServlet.class
+model\ProjectMember.class
 service\IssueService.class
 control\issue\FetchSubjectsServlet.class
 control\ErrorServlet.class
@@ -24,10 +28,13 @@ model\SystemSetting.class
 control\RegisterServlet.class
 control\HomeServlet.class
 dal\SubjectDAO.class
+model\ClassMember.class
 model\Issue.class
+dal\ClassMemberDAO.class
 dal\MilestoneDAO.class
 model\Project.class
 dal\ClassDAO.class
+model\Assignment.class
 control\LogoutServlet.class
 control\ViewProjectDashboardServlet.class
 model\IssueSetting.class
@@ -35,4 +42,5 @@ control\issue\AddIssueServlet.class
 service\MilestoneService.class
 dal\ProjectDAO.class
 control\ResetPasswordServlet.class
+dal\ProjectMemberDAO.class
 dal\IssueDAO.class

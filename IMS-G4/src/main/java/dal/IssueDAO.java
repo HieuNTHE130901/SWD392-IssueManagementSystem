@@ -347,6 +347,91 @@ public class IssueDAO {
         return null; // Issue not found
     }
 
-    
+    public Issue viewIssueDetails(int issueId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Issue issue = null;
 
+        try {
+            connection = dbContext.getConnection();
+
+            // Prepare the SQL query
+            String query = "SELECT\n"
+                    + "    i.issue_id,\n"
+                    + "    issue_setting.issue_type,\n"
+                    + "    issue_setting.issue_status,\n"
+                    + "    p.project_code,\n"
+                    + "    c.class_name,\n"
+                    + "    s.subject_code,\n"
+                    + "    sem.semester_name,\n"
+                    + "    um.full_name AS manager_name,\n"
+                    + "    ua.full_name AS assigner_name,\n"
+                    + "    ue.full_name AS assignee_name,\n"
+                    + "    i.created_date,\n"
+                    + "    i.updated_date,\n"
+                    + "    i.description,\n"
+                    + "    issue_setting.work_process\n"
+                    + "FROM\n"
+                    + "    issue AS i\n"
+                    + "    JOIN issue_setting ON i.issue_id = issue_setting.issue_id\n"
+                    + "    JOIN project AS p ON i.project_id = p.project_id\n"
+                    + "    JOIN class AS c ON p.class_id = c.class_id\n"
+                    + "    JOIN subject AS s ON c.subject_id = s.subject_id\n"
+                    + "    JOIN semester AS sem ON c.semester_id = sem.semester_id\n"
+                    + "    JOIN user AS um ON s.manager_id = um.user_id\n"
+                    + "    JOIN user AS ua ON i.assigner_id = ua.user_id\n"
+                    + "    JOIN user AS ue ON i.assignee_id = ue.user_id\n"
+                    + "WHERE\n"
+                    + "    i.issue_id = ?;";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, issueId);
+
+            // Execute the query
+            resultSet = statement.executeQuery();
+
+            // Process the result set
+            if (resultSet.next()) {
+                // Retrieve the issue details from the result set
+                issue = new Issue();
+                issue.setIssueId(resultSet.getInt("issue_id"));
+                issue.setIssueType(resultSet.getString("issue_type"));
+                issue.setIssueStatus(resultSet.getString("issue_status"));
+                issue.setProjectCode(resultSet.getString("project_code"));
+                issue.setClassName(resultSet.getString("class_name"));
+                issue.setSubjectCode(resultSet.getString("subject_code"));
+                issue.setSemesterName(resultSet.getString("semester_name"));
+                issue.setManagerName(resultSet.getString("manager_name"));
+                issue.setAssignerName(resultSet.getString("assigner_name"));
+                issue.setAssigneeName(resultSet.getString("assignee_name"));
+                java.sql.Date createdDate = resultSet.getDate("created_date");
+                java.sql.Date updatedDate = resultSet.getDate("updated_date");
+                issue.setCreatedDate(createdDate);
+                issue.setUpdatedDate(updatedDate);
+                issue.setDescription(resultSet.getString("description"));
+                issue.setWorkProcess(resultSet.getString("work_process"));
+            }
+        } catch (SQLException e) {
+            // Handle any exceptions
+            e.printStackTrace();
+        } finally {
+            // Close the database resources in the reverse order of their creation
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // Handle any exceptions that may occur during closing
+                e.printStackTrace();
+            }
+        }
+
+        return issue; // Return the retrieved issue object, or null if no issue is found
+    }
 }

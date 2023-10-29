@@ -20,9 +20,37 @@ public class Issue {
     private String issueType;
     private String issueStatus;
      private IssueSetting issueSetting;
+     private String semesterName;
+    private String managerName;
+    private String workProcess;
+    
     
 
     public Issue() {
+    }
+
+    public String getSemesterName() {
+        return semesterName;
+    }
+
+    public void setSemesterName(String semesterName) {
+        this.semesterName = semesterName;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
+    public String getWorkProcess() {
+        return workProcess;
+    }
+
+    public void setWorkProcess(String workProcess) {
+        this.workProcess = workProcess;
     }
 
     public IssueSetting getIssueSetting() {
