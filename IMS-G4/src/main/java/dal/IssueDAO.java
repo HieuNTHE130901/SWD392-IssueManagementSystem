@@ -295,4 +295,58 @@ public class IssueDAO {
 
         return false; // Issue or issue setting insertion failed
     }
+
+    public Issue getIssueById(String issueId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish a database connection
+            connection = dbContext.getConnection();
+
+            // Prepare the SQL statement
+            String sql = "SELECT * FROM issue WHERE issue_id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, issueId);
+
+            // Execute the query
+            resultSet = statement.executeQuery();
+
+            // Check if the issue was found
+            if (resultSet.next()) {
+                // Retrieve the issue data from the result set
+                Issue issue = new Issue();
+                issue.setIssueId(resultSet.getInt("issue_id"));
+                // Set other properties of the issue object
+
+                // Return the issue object
+                return issue;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any potential exceptions
+        } finally {
+            // Close the database resources
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Handle any potential exceptions
+            }
+        }
+
+        return null; // Issue not found
+    }
+
+    
+
 }

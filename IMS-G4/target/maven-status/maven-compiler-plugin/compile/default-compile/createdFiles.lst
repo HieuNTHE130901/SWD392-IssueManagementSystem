@@ -2,6 +2,7 @@ control\user\AdminServlet.class
 control\LoginServlet.class
 control\issue\ViewIssueListServlet.class
 model\Subject.class
+dal\IssueSettingDAO.class
 control\issue\FetchClassesServlet.class
 dal\UserDAO.class
 service\UserService.class
@@ -16,6 +17,8 @@ model\User.class
 control\ViewProfileServlet.class
 service\IssueService.class
 control\issue\FetchSubjectsServlet.class
+control\ErrorServlet.class
+control\issue\EditIssueServlet.class
 dal\dbutils\DBContext.class
 model\SystemSetting.class
 control\RegisterServlet.class
@@ -27,6 +30,7 @@ model\Project.class
 dal\ClassDAO.class
 control\LogoutServlet.class
 control\ViewProjectDashboardServlet.class
+model\IssueSetting.class
 control\issue\AddIssueServlet.class
 service\MilestoneService.class
 dal\ProjectDAO.class

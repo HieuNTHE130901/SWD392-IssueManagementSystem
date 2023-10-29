@@ -52,8 +52,8 @@
                         <td>${issue.updatedDate}</td>                      
                         <td>${issue.description}</td>
                         <td>
-                            <a href="#">Edit</a>
-                            <a href="#">View</a>
+                           <a href="/IMS-G4/edit-issue?issueId=${issue.issueId}">Edit</a>
+                           <a href="#">View</a>
                         </td>
                     </tr>
                 </c:forEach>
