@@ -249,5 +249,41 @@ public class UserDAO {
 
         return null;
     }
+    
+    public int getTeacherIdForUser(int userId) throws SQLException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = dbContext.getConnection();
+            String query = "SELECT teacher_id FROM class WHERE class_id IN (SELECT class_id FROM class_member WHERE user_id = ?)";
+
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("teacher_id");
+            }
+
+            // If no teacher is found, you can return a default value or throw an exception.
+            // For now, let's return -1 if no teacher is found.
+            return -1;
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+
+   
 
 }

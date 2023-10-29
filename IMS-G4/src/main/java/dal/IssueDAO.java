@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import dal.dbutils.DBContext;
+import java.sql.Statement;
 import java.sql.Timestamp;
 
 /**
@@ -96,24 +97,33 @@ public class IssueDAO {
 
         try {
             conn = dbContext.getConnection();
-            String query = "SELECT "
-                    + "i.issue_id, "
-                    + "p.project_code, "
-                    + "c.class_name, "
-                    + "s.subject_code, "
-                    + "ua.full_name AS assigner_name, "
-                    + "ue.full_name AS assignee_name, "
-                    + "i.created_date, "
-                    + "i.updated_date, "
-                    + "i.description "
-                    + "FROM "
-                    + "issue i "
-                    + "JOIN project p ON i.project_id = p.project_id "
-                    + "JOIN class c ON p.class_id = c.class_id "
-                    + "JOIN subject s ON c.subject_id = s.subject_id "
-                    + "JOIN user ua ON i.assigner_id = ua.user_id "
-                    + "JOIN user ue ON i.assignee_id = ue.user_id "
-                    + "WHERE p.team_leader_id = ?"; // Assuming team_leader_id corresponds to user_id
+            String query = "SELECT\n"
+                    + "    i.issue_id,\n"
+                    + "    p.project_code,\n"
+                    + "    c.class_name,\n"
+                    + "    s.subject_code,\n"
+                    + "    ua.full_name AS assigner_name,\n"
+                    + "    ue.full_name AS assignee_name,\n"
+                    + "    i.created_date,\n"
+                    + "    i.updated_date,\n"
+                    + "    ist.issue_type,\n"
+                    + "    ist.issue_status,\n"
+                    + "    i.description\n"
+                    + "FROM\n"
+                    + "    issue i\n"
+                    + "    JOIN project p ON i.project_id = p.project_id\n"
+                    + "    JOIN class c ON p.class_id = c.class_id\n"
+                    + "    JOIN subject s ON c.subject_id = s.subject_id\n"
+                    + "    JOIN `user` ua ON i.assigner_id = ua.user_id\n"
+                    + "    JOIN `user` ue ON i.assignee_id = ue.user_id\n"
+                    + "    JOIN issue_setting ist ON i.issue_id = ist.issue_id\n"
+                    + "WHERE\n"
+                    + "    p.project_id IN (\n"
+                    + "        SELECT pm.project_id\n"
+                    + "        FROM project_member pm\n"
+                    + "        JOIN `user` u ON pm.member_id = u.user_id\n"
+                    + "        WHERE u.user_id = ?\n"
+                    + "    );";
 
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId); // Set the user ID parameter
@@ -132,6 +142,8 @@ public class IssueDAO {
                 java.sql.Date updatedDate = rs.getDate("updated_date");
                 issue.setCreatedDate(createdDate);
                 issue.setUpdatedDate(updatedDate);
+                issue.setIssueType(rs.getString("issue_type"));
+                issue.setIssueStatus(rs.getString("issue_status"));
                 issue.setDescription(rs.getString("description"));
 
                 issues.add(issue);
@@ -199,5 +211,88 @@ public class IssueDAO {
         }
 
         return false; // Insertion failed
+    }
+
+    public boolean insertNewIssue(Issue issue, String issueType, String issueStatus) {
+        Connection connection = null;
+        PreparedStatement issueStatement = null;
+        PreparedStatement issueSettingStatement = null;
+
+        try {
+            // Get a database connection
+            connection = dbContext.getConnection();
+
+            // Retrieve the maximum issue_id from the issue table
+            String maxIssueIdQuery = "SELECT MAX(issue_id) FROM issue";
+            Statement maxIssueIdStatement = connection.createStatement();
+            ResultSet maxIssueIdResult = maxIssueIdStatement.executeQuery(maxIssueIdQuery);
+            int maxIssueId = 0;
+            if (maxIssueIdResult.next()) {
+                maxIssueId = maxIssueIdResult.getInt(1);
+            }
+            int newIssueId = maxIssueId + 1;
+
+            // Retrieve the maximum issue_setting_id from the issue_setting table
+            String maxIssueSettingIdQuery = "SELECT MAX(issue_setting_id) FROM issue_setting";
+            Statement maxIssueSettingIdStatement = connection.createStatement();
+            ResultSet maxIssueSettingIdResult = maxIssueSettingIdStatement.executeQuery(maxIssueSettingIdQuery);
+            int maxIssueSettingId = 0;
+            if (maxIssueSettingIdResult.next()) {
+                maxIssueSettingId = maxIssueSettingIdResult.getInt(1);
+            }
+            int newIssueSettingId = maxIssueSettingId + 1;
+
+            // Insert the new issue into the issue table
+            String issueQuery = "INSERT INTO issue (issue_id, project_id, milestone_id, assigner_id, assignee_id, description, created_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            issueStatement = connection.prepareStatement(issueQuery);
+            issueStatement.setInt(1, newIssueId);
+            issueStatement.setInt(2, issue.getProjectId());
+            issueStatement.setInt(3, issue.getMilestoneId());
+            issueStatement.setInt(4, issue.getAssignerId());
+            issueStatement.setInt(5, issue.getAssigneeId());
+            issueStatement.setString(6, issue.getDescription());
+            // Get the current timestamp
+            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+            issueStatement.setTimestamp(7, currentTimestamp);
+            int rowsAffected = issueStatement.executeUpdate();
+
+            // Check if the insertion was successful
+            if (rowsAffected == 1) {
+
+                // Insert the issue setting into the issue_setting table
+                String issueSettingQuery = "INSERT INTO issue_setting (issue_setting_id, issue_id, issue_type, issue_status) VALUES (?, ?, ?, ?)";
+                issueSettingStatement = connection.prepareStatement(issueSettingQuery);
+                issueSettingStatement.setInt(1, newIssueSettingId);
+                issueSettingStatement.setInt(2, newIssueId);
+                issueSettingStatement.setString(3, issueType);
+                issueSettingStatement.setString(4, issueStatus);
+                int rowsAffectedSetting = issueSettingStatement.executeUpdate();
+
+                // Check if the insertion of the issue setting was successful
+                if (rowsAffectedSetting == 1) {
+                    return true; // Issue and issue setting inserted successfully
+                }
+            }
+        } catch (SQLException e) {
+            // Handle any exceptions
+            e.printStackTrace();
+        } finally {
+            // Close the database resources
+            try {
+                if (issueStatement != null) {
+                    issueStatement.close();
+                }
+                if (issueSettingStatement != null) {
+                    issueSettingStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false; // Issue or issue setting insertion failed
     }
 }

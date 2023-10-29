@@ -24,6 +24,9 @@ public class Issue {
     private String subjectCode;
     private String assignerName;
     private String assigneeName;
+    private String issueType;
+    private String issueStatus;
+    
 
     public Issue() {
     }
@@ -131,6 +134,23 @@ public class Issue {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+
+    public String getIssueType() {
+        return issueType;
+    }
+
+    public void setIssueType(String issueType) {
+        this.issueType = issueType;
+    }
+
+    public String getIssueStatus() {
+        return issueStatus;
+    }
+
+    public void setIssueStatus(String issueStatus) {
+        this.issueStatus = issueStatus;
+    }
+    
     
     
     

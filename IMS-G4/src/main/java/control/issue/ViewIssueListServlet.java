@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
-import service.issue.IssueService; // Import the IssueService
+import service.IssueService; 
 
 @WebServlet(name = "ViewIssueListServlet", urlPatterns = {"/issue-list"})
 public class ViewIssueListServlet extends HttpServlet {
