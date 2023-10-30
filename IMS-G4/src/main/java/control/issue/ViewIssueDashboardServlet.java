@@ -41,9 +41,7 @@ public class ViewIssueDashboardServlet extends HttpServlet {
         issueDAO = new IssueDAO();
     }
 
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // Load comboboxes
         List<Semester> semesters = semesterDAO.getAllSemesters();
@@ -58,10 +56,14 @@ public class ViewIssueDashboardServlet extends HttpServlet {
         List<Project> projects = projectDAO.getAllProjects();
         request.setAttribute("projects", projects);
 
-        // Assuming you have a data access layer or service to retrieve data from the database
-        int projectId = 2; // Replace with the actual project ID
-        Map<String, Map<String, Integer>> issueStatusComplexity = issueDAO.getIssueStatusComplexity(projectId);
+        List<User> users = userDAO.getAllStudents();
+        request.setAttribute("users", users);
+        // Get the selected project ID from the request parameters
+        String projectId = request.getParameter("projectId");
+        //int id = Integer.parseInt(projectId);
 
+        int id =2;
+        Map<String, Map<String, Integer>> issueStatusComplexity = issueDAO.getIssueStatusComplexity(id);
         // Convert the issue status complexity data to a format suitable for Google Charts
         List<List<Object>> chartData = new ArrayList<>();
         chartData.add(Arrays.asList("'Status'", "'Complex'", "'Medium'", "'Simple'"));
@@ -71,7 +73,7 @@ public class ViewIssueDashboardServlet extends HttpServlet {
             Map<String, Integer> complexityMap = entry.getValue();
 
             List<Object> rowData = new ArrayList<>();
-            rowData.add("'"+issueStatus+"'");
+            rowData.add("'" + issueStatus + "'");
             rowData.add(complexityMap.get("Complex"));
             rowData.add(complexityMap.get("Medium"));
             rowData.add(complexityMap.get("Simple"));
@@ -80,10 +82,6 @@ public class ViewIssueDashboardServlet extends HttpServlet {
 
         // Pass the chart data to the JSP file
         request.setAttribute("chartData", chartData);
-        
-        // Load statistics by week
-        List<User> users = userDAO.getAllStudents();
-        request.setAttribute("users", users);
 
         // Forward to the JSP
         request.getRequestDispatcher("issue/issue_dashboard.jsp").forward(request, response);
