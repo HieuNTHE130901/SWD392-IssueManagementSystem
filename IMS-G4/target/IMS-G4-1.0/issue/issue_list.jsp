@@ -29,46 +29,8 @@
     </head>
 
     <body>
-        <!-- Header Area -->
-        <header class="header" st style="padding-bottom: 30px;">           
-            <div class="header-inner">
-                <div class="container">
-                    <div class="inner">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-12">
-                                <!-- Start Logo -->
-                                <div class="logo">
-                                    <a href="student"><img src="CSS+JS/img/logo.png" alt="#" style="width: 120px; height: 50px;"></a>
-                                </div>
-                                <!-- End Logo -->
-                            </div>
-                            <div class="col-lg-7 col-md-9 col-12">
-                                <!-- Main Menu -->
-                                <div class="main-menu">
-                                    <nav class="navigation">
-                                        <ul class="nav menu">
-                                            <li class="active"><a href="student">Home </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                                <!--/ End Main Menu -->
-                            </div>
-                            <div class="col-lg-2 col-12">
-                                <div class="get-quote">
-                                    <a href="logout" class="btn">Sign out</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>           
-        </header>
-        <!--/ End Header -->
-
-
-
-
+        
+        <%@include file="../common/header.jsp" %>
         <!--/ Body -->        
         <div class="col-lg-10 col-12 mx-auto">
             <!-- Side bar -->
@@ -158,21 +120,7 @@
         </div>
         <!--/ Body -->
 
-        <!-- Footer -->
-        <footer id="footer" class="footer" style="padding-top: 100px">            
-            <div class="copyright">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <div class="copyright-content">
-                                <p>© Copyright 2023 | All Rights Reserved by <a href="" target="_blank">Group 4 - SWD392</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- Footer -->
+        
 
         <script src="CSS+JS/js/jquery.min.js"></script>
         <script src="CSS+JS/js/jquery-migrate-3.0.0.js"></script>
@@ -261,6 +209,8 @@
                     const paginationContainer = document.querySelector('.site-content');
                     const paginationLinks = createPaginationLinks();
                     paginationContainer.appendChild(paginationLinks);
-        </script>      
+        </script>     
+        
+        <%@include file="../common/footer.jsp" %>
     </body>
 </html>

@@ -1,11 +1,10 @@
 package control.issue;
 
-import dal.ClassDAO;
-import dal.IssueDAO;
-import dal.ProjectDAO;
-import dal.SemesterDAO;
-import dal.SubjectDAO;
-import dal.UserDAO;
+import dao.ClassDAO;
+import dao.IssueDAO;
+import dao.ProjectDAO;
+import dao.SubjectDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import model.Semester;
 import model.Subject;
 import model.Class;
 import model.Project;
@@ -25,7 +23,6 @@ import model.User;
 @WebServlet(name = "ViewIssueDashboardServlet", urlPatterns = {"/view-issue-dashboard"})
 public class ViewIssueDashboardServlet extends HttpServlet {
 
-    private final SemesterDAO semesterDAO;
     private final SubjectDAO subjectDAO;
     private final ClassDAO classDAO;
     private final ProjectDAO projectDAO;
@@ -33,7 +30,6 @@ public class ViewIssueDashboardServlet extends HttpServlet {
     private final IssueDAO issueDAO;
 
     public ViewIssueDashboardServlet() {
-        semesterDAO = new SemesterDAO();
         subjectDAO = new SubjectDAO();
         classDAO = new ClassDAO();
         projectDAO = new ProjectDAO();
@@ -44,8 +40,6 @@ public class ViewIssueDashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // Load comboboxes
-        List<Semester> semesters = semesterDAO.getAllSemesters();
-        request.setAttribute("semesters", semesters);
 
         List<Subject> subjects = subjectDAO.getAllSubjects();
         request.setAttribute("subjects", subjects);

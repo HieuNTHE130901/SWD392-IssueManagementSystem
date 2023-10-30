@@ -1,7 +1,7 @@
 package control.issue;
 
-import dal.MilestoneDAO;
-import dal.ProjectDAO;
+import dao.MilestoneDAO;
+import dao.ProjectDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -50,47 +50,47 @@ public class AddIssueServlet extends HttpServlet {
     }
 
     @Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // Retrieve data from the form
-    String project = request.getParameter("project");
-    String milestone = request.getParameter("milestone");
-    String description = request.getParameter("description");
-    String issueType = request.getParameter("issueType");
-    String issueStatus = request.getParameter("issueStatus");
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Retrieve data from the form
+        String project = request.getParameter("project");
+        String milestone = request.getParameter("milestone");
+        String description = request.getParameter("description");
+        String issueType = request.getParameter("issueType");
+        String issueStatus = request.getParameter("issueStatus");
 
-    HttpSession session = request.getSession();
-    int assigneeId = ((User) session.getAttribute("user")).getUserId(); // Assignee ID logic
+        HttpSession session = request.getSession();
+        int assigneeId = ((User) session.getAttribute("user")).getUserId(); // Assignee ID logic
 
-    // Create a UserService instance
-    UserService userService = new UserService();
+        // Create a UserService instance
+        UserService userService = new UserService();
 
-    int teacherId = 0;
-    try {
-        teacherId = userService.getTeacherIdForUser(assigneeId);
-    } catch (SQLException ex) {
-        Logger.getLogger(AddIssueServlet.class.getName()).log(Level.SEVERE, null, ex);
+        int teacherId = 0;
+        try {
+            teacherId = userService.getTeacherIdForUser(assigneeId);
+        } catch (SQLException ex) {
+            Logger.getLogger(AddIssueServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        // Create an Issue object
+        Issue issue = new Issue();
+        issue.setProjectId(Integer.parseInt(project));
+        issue.setMilestoneId(Integer.parseInt(milestone));
+        issue.setAssigneeId(assigneeId);
+        issue.setAssignerId(teacherId);
+        issue.setDescription(description);
+        issue.setIssueType(issueType);
+        issue.setIssueStatus(issueStatus);
+
+        // Call a method to add the issue to the database (implement this in IssueService)
+        boolean success = issueService.addIssue(issue, issueType, issueStatus);
+
+        if (success) {
+            // Issue added successfully
+            response.sendRedirect("issue-list");
+        } else {
+            // Failed to add the issue
+            response.sendRedirect("add-issue");
+        }
     }
-
-    // Create an Issue object
-    Issue issue = new Issue();
-    issue.setProjectId(Integer.parseInt(project));
-    issue.setMilestoneId(Integer.parseInt(milestone));
-    issue.setAssigneeId(assigneeId);
-    issue.setAssignerId(teacherId);
-    issue.setDescription(description);
-    issue.setIssueType(issueType);
-    issue.setIssueStatus(issueStatus);
-
-    // Call a method to add the issue to the database (implement this in IssueService)
-    boolean success = issueService.addIssue(issue, issueType, issueStatus);
-
-    if (success) {
-        // Issue added successfully
-        response.sendRedirect("issue-list");
-    } else {
-        // Failed to add the issue
-        response.sendRedirect("add-issue");
-    }
-}
 
 }

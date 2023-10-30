@@ -2,7 +2,7 @@ package service;
 
 import model.Issue;
 
-import dal.IssueDAO;
+import dao.IssueDAO;
 import java.util.List;
 
 public class IssueService {

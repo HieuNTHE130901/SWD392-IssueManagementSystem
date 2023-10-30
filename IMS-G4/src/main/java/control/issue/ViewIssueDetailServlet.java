@@ -1,7 +1,7 @@
 
 package control.issue;
 
-import dal.IssueDAO;
+import dao.IssueDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

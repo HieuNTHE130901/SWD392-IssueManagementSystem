@@ -1,6 +1,6 @@
 package control;
 
-import dal.UserDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -43,16 +43,8 @@ public class LoginServlet extends HttpServlet {
             // Set the user object in the session
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
+            response.sendRedirect("user-home");
 
-            // Perform role-specific redirection
-            if ("admin".equals(user.getUserRole())) {
-                response.sendRedirect(request.getContextPath() + "/admin");
-            } else if ("student".equals(user.getUserRole())) {
-                response.sendRedirect(request.getContextPath() + "/student");
-            } else {
-                // Handle other cases or show an error message
-                response.sendRedirect(request.getContextPath() + "/login");
-            }
         } else {
             // Authentication failed, show an error message or redirect to the login page
             request.setAttribute("error", "Authentication failed. Please try again.");

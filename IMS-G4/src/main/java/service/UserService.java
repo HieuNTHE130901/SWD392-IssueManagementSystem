@@ -8,7 +8,7 @@ package service;
  *
  * @author trung
  */
-import dal.UserDAO;
+import dao.UserDAO;
 import java.sql.SQLException;
 import model.User;
 

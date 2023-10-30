@@ -4,8 +4,8 @@
  */
 package control.issue;
 
-import dal.IssueDAO;
-import dal.IssueSettingDAO;
+import dao.IssueDAO;
+import dao.IssueSettingDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
