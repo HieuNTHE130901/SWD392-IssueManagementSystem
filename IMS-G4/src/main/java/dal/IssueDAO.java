@@ -10,6 +10,8 @@ import java.util.List;
 import dal.dbutils.DBContext;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -433,5 +435,47 @@ public class IssueDAO {
         }
 
         return issue; // Return the retrieved issue object, or null if no issue is found
+    }
+    
+    
+    public Map<String, Map<String, Integer>> getIssueStatusComplexity(int projectId) {
+        String query = "SELECT iss.issue_status, " +
+                "COUNT(CASE WHEN iss.issue_complexity = 'Complex' THEN 1 END) AS complex_value, " +
+                "COUNT(CASE WHEN iss.issue_complexity = 'Medium' THEN 1 END) AS medium_value, " +
+                "COUNT(CASE WHEN iss.issue_complexity = 'Simple' THEN 1 END) AS simple_value " +
+                "FROM issue_setting AS iss " +
+                "INNER JOIN issue AS i ON iss.issue_id = i.issue_id " +
+                "WHERE i.project_id = ? " +
+                "GROUP BY iss.issue_status";
+
+        try (Connection conn = dbContext.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, projectId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            Map<String, Map<String, Integer>> result = new HashMap<>();
+            while (rs.next()) {
+                String issueStatus = rs.getString("issue_status");
+                int complexValue = rs.getInt("complex_value");
+                int mediumValue = rs.getInt("medium_value");
+                int simpleValue = rs.getInt("simple_value");
+
+                Map<String, Integer> complexityMap = new HashMap<>();
+                complexityMap.put("Complex", complexValue);
+                complexityMap.put("Medium", mediumValue);
+                complexityMap.put("Simple", simpleValue);
+
+                result.put(issueStatus, complexityMap);
+            }
+
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception appropriately
+        }
+
+        return null;
     }
 }
