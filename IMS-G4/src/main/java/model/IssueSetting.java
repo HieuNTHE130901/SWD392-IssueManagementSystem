@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 /**
@@ -13,16 +10,27 @@ public class IssueSetting {
     private String issueType;
     private String issueStatus;
     private String workingProcess;
+    private String issueComplexity;
+    
 
     public IssueSetting() {
         // Default constructor
     }
 
-    public IssueSetting(int issueSettingId, String issueType, String issueStatus, String workingProcess) {
+    public IssueSetting(int issueSettingId, String issueType, String issueStatus, String workingProcess, String issueComplexity) {
         this.issueSettingId = issueSettingId;
         this.issueType = issueType;
         this.issueStatus = issueStatus;
         this.workingProcess = workingProcess;
+        this.issueComplexity = issueComplexity;
+    }
+
+    public String getIssueComplexity() {
+        return issueComplexity;
+    }
+
+    public void setIssueComplexity(String issueComplexity) {
+        this.issueComplexity = issueComplexity;
     }
     
 

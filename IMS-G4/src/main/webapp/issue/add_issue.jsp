@@ -40,12 +40,11 @@
             <!-- Issue Type dropdown -->
             <label for="issueType">Issue Type:</label>
             <select id="issueType" name="issueType" required>
-                <option value="">Select an Issue Type</option>
-                <option value="Bug">Bug</option>
-                <option value="Feature">Feature</option>
-                <option value="Task">Task</option>
-                <option value="Defect">Defect</option>
+                <option value="">Select an Issue Type</option>                
                 <option value="Q&A">Q&A</option>
+                <option value="Task">Task</option>
+                <option value="Defect">Defect</option>                
+                <option value="Other Issues">Other Issues</option>
             </select><br><br>
 
             <!-- Issue Status dropdown -->
@@ -53,8 +52,9 @@
             <select id="issueStatus" name="issueStatus" required>
                 <option value="">Select an Issue Status</option>
                 <option value="Open">Open</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Resolved">Resolved</option>
+                <option value="To Do">To Do</option>
+                <option value="Doing">Doing</option>                
+                <option value="Done">Done</option>
                 <option value="Closed">Closed</option>
             </select><br><br>
 

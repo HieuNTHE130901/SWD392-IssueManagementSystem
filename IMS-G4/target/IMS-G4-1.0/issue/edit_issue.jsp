@@ -16,11 +16,10 @@
             <label for="issueType">Issue Type:</label>
             <select id="issueType" name="issueType" required>
                 <option value="<%= request.getAttribute("issueType") %>"><%= request.getAttribute("issueType") %></option>
-                <option value="Bug">Bug</option>
-                <option value="Feature">Feature</option>
-                <option value="Task">Task</option>
-                <option value="Defect">Defect</option>
                 <option value="Q&A">Q&A</option>
+                <option value="Task">Task</option>
+                <option value="Defect">Defect</option>                
+                <option value="Other Issues">Other Issues</option>
             </select><br><br>
 
             <!-- Issue Status dropdown -->
@@ -28,9 +27,19 @@
             <select id="issueStatus" name="issueStatus" required>
                 <option value="<%= request.getAttribute("issueStatus") %>"><%= request.getAttribute("issueStatus") %></option>
                 <option value="Open">Open</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Resolved">Resolved</option>
+                <option value="To Do">To Do</option>
+                <option value="Doing">Doing</option>                
+                <option value="Done">Done</option>
                 <option value="Closed">Closed</option>
+            </select><br><br>
+            
+             <!-- Issue comlexity dropdown -->
+            <label for="issueComplexity">Issue Complexity: </label>
+            <select id="issueComplexity" name="issueComplexity" required>
+                <option value="<%= request.getAttribute("issueComplexity") %>"><%= request.getAttribute("issueComplexity") %></option>
+                <option value="Complex">Complex</option>
+                <option value="Medium">Medium</option>
+                <option value="Simple">Simple</option>    
             </select><br><br>
             
             <label for="workingProcess">Working Process:</label>

@@ -15,7 +15,7 @@ public class IssueSettingDAO {
         dbContext = new DBContext();
     }
 
-    public boolean updateIssueSetting(int issueId, String newIssueType, String newIssueStatus, String newWorkProcess) {
+    public boolean updateIssueSetting(int issueId, String newIssueType, String newIssueStatus, String newWorkProcess, String newComplexity) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -23,12 +23,13 @@ public class IssueSettingDAO {
             connection = dbContext.getConnection(); // Obtain your database connection from your DBContext
 
             // Prepare the SQL statement
-            String query = "UPDATE issue_setting SET issue_type = ?, issue_status = ?, work_process = ? WHERE issue_id = ?";
+            String query = "UPDATE issue_setting SET issue_type = ?, issue_status = ?, work_process = ?, issue_complexity = ? WHERE issue_id = ?";
             statement = connection.prepareStatement(query);
             statement.setString(1, newIssueType);
             statement.setString(2, newIssueStatus);
             statement.setString(3, newWorkProcess);
-            statement.setInt(4, issueId);
+            statement.setString(4, newComplexity);            
+            statement.setInt(5, issueId);
 
             // Execute the update
             int rowsAffected = statement.executeUpdate();
@@ -84,9 +85,11 @@ public class IssueSettingDAO {
                 String issueType = resultSet.getString("issue_type");
                 String issueStatus = resultSet.getString("issue_status");
                 String workProcess = resultSet.getString("work_process");
+                String issueComplexity = resultSet.getString("issue_complexity");
+                
 
                 // Create and return the IssueSetting object
-                return new IssueSetting(issueId, issueType, issueStatus, workProcess);
+                return new IssueSetting(issueId, issueType, issueStatus, workProcess, issueComplexity);
             } else {
                 // No issue setting found with the given issueId
                 return null;

@@ -123,6 +123,7 @@ CREATE TABLE issue_setting (
     work_process VARCHAR(255),
     FOREIGN KEY (issue_id) REFERENCES issue (issue_id)
 );
+ALTER TABLE `issue_setting` ADD `issue_complexity` VARCHAR(255) NULL AFTER `issue_status`;
 
 -- Create the system_setting table
 CREATE TABLE system_setting (
@@ -170,5 +171,7 @@ INSERT INTO `class_member` (`class_id`, `user_id`) VALUES ('1', '6'), ('1', '7')
 INSERT INTO `assignment` (`assignment_id`, `subject_id`, `assignment_name`, `description`) VALUES ('1', '1', 'Assignment 1', NULL), ('2', '2', 'Assignment 1', NULL);
 
 INSERT INTO `issue_setting` (`issue_setting_id`, `issue_id`, `issue_type`, `issue_status`, `work_process`) VALUES ('1', '1', 'Bug', 'Open', 'working'), ('2', '2', 'Feature', 'Open', NULL);
-
+UPDATE `issue_setting` SET `issue_complexity` = 'Complex' WHERE `issue_setting`.`issue_setting_id` = 1
+UPDATE `issue_setting` SET `issue_complexity` = 'Medium' WHERE `issue_setting`.`issue_setting_id` = 2
+UPDATE `issue_setting` SET `issue_complexity` = 'Simple' WHERE `issue_setting`.`issue_setting_id` = 3
 

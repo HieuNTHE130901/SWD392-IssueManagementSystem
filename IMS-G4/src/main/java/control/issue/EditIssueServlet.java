@@ -46,6 +46,8 @@ public class EditIssueServlet extends HttpServlet {
                     request.setAttribute("issueType", issue.getIssueType());
                     request.setAttribute("issueStatus", issue.getIssueStatus());
                     request.setAttribute("workingProcess", issue.getWorkingProcess());
+                    request.setAttribute("issueComplexity", issue.getIssueComplexity());
+                    
 
                     // Forward the request to the JSP page for displaying the edit form
                     request.getRequestDispatcher("issue/edit_issue.jsp").forward(request, response);
@@ -75,10 +77,11 @@ public class EditIssueServlet extends HttpServlet {
                 // Retrieve the updated values from the request parameters
                 String issueType = request.getParameter("issueType");
                 String issueStatus = request.getParameter("issueStatus");
-                String workingProcess = request.getParameter("workingProcess");
+                String workingProcess = request.getParameter("workingProcess");                
+                String issueComplexity = request.getParameter("issueComplexity");
 
                 // Perform the necessary operations to save the updated issue setting to the data source
-                boolean isUpdated = issueSettingDAO.updateIssueSetting(issueIdInt, issueType, issueStatus, workingProcess);
+                boolean isUpdated = issueSettingDAO.updateIssueSetting(issueIdInt, issueType, issueStatus, workingProcess, issueComplexity);
 
                 if (isUpdated) {
                     // Redirect to a success page or a relevant URL
