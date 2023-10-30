@@ -33,7 +33,7 @@ public class ViewIssueListServlet extends HttpServlet {
             request.setAttribute("issues", issues);
 
             // Forward the request and response to a JSP page for rendering
-            request.getRequestDispatcher("issue/issue_list.jsp").forward(request, response);
+            request.getRequestDispatcher("issue/list.jsp").forward(request, response);
         } catch (Exception e) {
             // Handle exceptions appropriately, e.g., log or display an error page
             e.printStackTrace();

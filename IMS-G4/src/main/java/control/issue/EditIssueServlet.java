@@ -4,26 +4,24 @@
  */
 package control.issue;
 
-import dao.IssueDAO;
-import dao.IssueSettingDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Issue;
 import model.IssueSetting;
+import service.IssueSettingService;
 
 @WebServlet(name = "EditIssueServlet", urlPatterns = {"/edit-issue"})
 public class EditIssueServlet extends HttpServlet {
 
-    private IssueSettingDAO issueSettingDAO;
+    private IssueSettingService issueSettingService;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        issueSettingDAO = new IssueSettingDAO();
+        issueSettingService = new IssueSettingService();
     }
 
     @Override
@@ -38,7 +36,7 @@ public class EditIssueServlet extends HttpServlet {
                 int issueIdInt = Integer.parseInt(issueId);
 
                 // Retrieve the issue details based on the issue ID from the data source
-                IssueSetting issue = issueSettingDAO.getIssueSettingById(issueIdInt);
+                IssueSetting issue = issueSettingService.getIssueSettingById(issueIdInt);
 
                 if (issue != null) {
                     // Set the issue details as request attributes
@@ -50,7 +48,7 @@ public class EditIssueServlet extends HttpServlet {
                     
 
                     // Forward the request to the JSP page for displaying the edit form
-                    request.getRequestDispatcher("issue/edit_issue.jsp").forward(request, response);
+                    request.getRequestDispatcher("issue/edit.jsp").forward(request, response);
                     return;
                 }
             } catch (NumberFormatException e) {
@@ -81,7 +79,7 @@ public class EditIssueServlet extends HttpServlet {
                 String issueComplexity = request.getParameter("issueComplexity");
 
                 // Perform the necessary operations to save the updated issue setting to the data source
-                boolean isUpdated = issueSettingDAO.updateIssueSetting(issueIdInt, issueType, issueStatus, workingProcess, issueComplexity);
+                boolean isUpdated = issueSettingService.updateIssueSetting(issueIdInt, issueType, issueStatus, workingProcess, issueComplexity);
 
                 if (isUpdated) {
                     // Redirect to a success page or a relevant URL

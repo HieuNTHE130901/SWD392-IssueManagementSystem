@@ -27,5 +27,12 @@ public class IssueService {
         // You can add any additional business logic or validation here
         return issueDAO.insertNewIssue(issue,issueType,issueStatus);
     }
+    public Issue viewIssueDetails(int issueId) {
+        // Perform any necessary validation or business logic here
+        // ...
+
+        // Call the DAO method to retrieve the issue details
+        return issueDAO.viewIssueDetails(issueId);
+    }
 
 }

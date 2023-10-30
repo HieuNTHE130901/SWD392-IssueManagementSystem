@@ -11,6 +11,7 @@ dao\ProjectDAO.class
 service\CommonServices.class
 control\issue\ViewIssueDetailServlet.class
 dao\UserDAO.class
+service\IssueSettingService.class
 model\Milestone.class
 dao\SubjectDAO.class
 model\User.class

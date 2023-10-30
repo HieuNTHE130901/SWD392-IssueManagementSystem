@@ -46,7 +46,7 @@ public class AddIssueServlet extends HttpServlet {
         request.setAttribute("milestoneList", milestoneList);
 
         // Handle GET requests (e.g., redirect to the add_issue.jsp)
-        request.getRequestDispatcher("issue/add_issue.jsp").forward(request, response);
+        request.getRequestDispatcher("issue/add.jsp").forward(request, response);
     }
 
     @Override

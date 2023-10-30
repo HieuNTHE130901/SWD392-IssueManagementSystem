@@ -78,6 +78,6 @@ public class ViewIssueDashboardServlet extends HttpServlet {
         request.setAttribute("chartData", chartData);
 
         // Forward to the JSP
-        request.getRequestDispatcher("issue/issue_dashboard.jsp").forward(request, response);
+        request.getRequestDispatcher("issue/dashboard.jsp").forward(request, response);
     }
 }
