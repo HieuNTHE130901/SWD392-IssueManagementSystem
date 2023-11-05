@@ -49,15 +49,15 @@
                             }
 
                             function importFromExcel() {
-                                window.location.href = "import_from_excel.jsp";
+                                window.location.href = "#";
                             }
 
                             function exportToExcel() {
-                                window.location.href = "export_to_excel.jsp";
+                                window.location.href = "#";
                             }
 
                             function syncToGitLab() {
-                                window.location.href = "sync_to_gitlab.jsp";
+                                window.location.href = "#";
                             }
                         </script>
                     </div>
