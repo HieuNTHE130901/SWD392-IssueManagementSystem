@@ -7,6 +7,7 @@ E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\ViewProfileServlet.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\service\UserService.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\LoginServlet.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\issue\ViewIssueDetailServlet.java
+E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\classs\ViewClassListServlet.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\model\Class.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\dao\ClassDAO.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\HomeServlet.java
@@ -20,6 +21,7 @@ E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\dao\SystemSettingDAO.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\model\Issue.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\model\SystemSetting.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\service\MilestoneService.java
+E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\service\ClassService.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\issue\EditIssueServlet.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\ResetPasswordServlet.java
 E:\Github-repo\SWD392_G4\IMS-G4\src\main\java\control\issue\ViewIssueDashboardServlet.java

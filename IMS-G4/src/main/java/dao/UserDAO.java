@@ -85,7 +85,7 @@ public class UserDAO extends BaseDAO {
             }
 
             // Now, insert the user data with the calculated user_id
-            String insertQuery = "INSERT INTO user (user_id, full_name, email, password) VALUES (?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO user (user_id, full_name, email, password, user_role) VALUES (?, ?, ?, ?, student)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setInt(1, newUserId);
             preparedStatement.setString(2, user.getFullName());
@@ -120,7 +120,7 @@ public class UserDAO extends BaseDAO {
                 newUserId = resultSet.getInt("new_user_id");
             }
             // Now, insert the user data with the calculated user_id
-            String insertQuery = "INSERT INTO user (user_id, full_name, mobile, password) VALUES (?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO user (user_id, full_name, mobile, password, user_role) VALUES (?, ?, ?, ?, student)";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
             preparedStatement.setInt(1, newUserId);
             preparedStatement.setString(2, user.getFullName());
@@ -277,6 +277,45 @@ public class UserDAO extends BaseDAO {
             }
         }
     }
+    public String getUserRoleById(int userId) {
+        String userRole = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            String query = "SELECT `user_role` FROM `user` WHERE `user_id` = ?";
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, userId); // Set the user ID parameter
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                userRole = rs.getString("user_role");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception properly in your application
+        } finally {
+            // Close resources in a finally block
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle the exception properly in your application
+            }
+        }
+        return userRole;
+    }
+    
+    
 
 
    

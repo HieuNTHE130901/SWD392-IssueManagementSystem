@@ -88,5 +88,54 @@ public class ClassDAO extends BaseDAO{
 
         return classes;
     }
+
+    public List<Class> getClassForTeacher(int userId) {
+        List<Class> classes = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            String query = " SELECT * FROM class WHERE teacher_id = ? ";
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, userId); // Set the user ID parameter
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Class class1 = new Class();
+               class1.setClassId(rs.getInt("class_id"));
+               class1.setSemesterId(rs.getInt("semester_id"));
+               class1.setTeacherId(rs.getInt("teacher_id"));
+               class1.setSubjectId(rs.getInt("subject_id"));
+               class1.setClassName(rs.getString("class_name"));               
+               class1.setStatus(rs.getString("status"));               
+               class1.setDescription(rs.getString("description"));                          
+
+                classes.add(class1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception properly in your application
+        } finally {
+            // Close resources in a finally block
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle the exception properly in your application
+            }
+        }
+
+        return classes;
+    }
    
 }

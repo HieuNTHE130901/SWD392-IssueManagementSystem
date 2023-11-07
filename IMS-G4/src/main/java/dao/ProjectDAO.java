@@ -64,7 +64,7 @@ public class ProjectDAO extends BaseDAO {
         return projects;
     }
 
-    public List<Project> getProjectsForUser(int userId) {
+    public List<Project> getProjectsForStudent(int userId) {
         List<Project> projects = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;

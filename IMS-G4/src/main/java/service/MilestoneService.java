@@ -1,9 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package service;
 
+import dao.MilestoneDAO;
+import dao.UserDAO;
+import java.util.ArrayList;
 import java.util.List;
 import model.Milestone;
 
@@ -13,6 +13,30 @@ import model.Milestone;
  */
 public class MilestoneService {
 
+    MilestoneDAO milestoneDAO;
+    UserDAO userDAO;
 
-    
+    public MilestoneService() {
+        milestoneDAO = new MilestoneDAO();
+        userDAO = new UserDAO();
+    }
+
+    public List<Milestone> getMilestoneForUser(int userId) {
+        String userRole = userDAO.getUserRoleById(userId);
+        if ("admin".equals(userRole)) {
+            // Logic for admin user
+            return milestoneDAO.getAllMilestones();
+        } else if ("manager".equals(userRole)) {
+            // Logic for manager user
+            return milestoneDAO.getAllMilestones();
+        } else if ("teacher".equals(userRole)) {
+            // Logic for teacher user
+            return milestoneDAO.getAllMilestones();
+        } else if ("student".equals(userRole)) {
+            // Logic for student user
+            return milestoneDAO.getMilestonesForStudent(userId);
+        }
+        return new ArrayList<>(); // Return an empty list
+    }
+
 }

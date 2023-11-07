@@ -3,7 +3,9 @@ control\issue\ViewIssueListServlet.class
 model\Subject.class
 control\UserHomeServlet.class
 dao\IssueDAO.class
+service\ClassService.class
 service\UserService.class
+control\classs\ViewClassListServlet.class
 control\AboutUsServlet.class
 control\issue\ViewIssueDashboardServlet.class
 model\Class.class

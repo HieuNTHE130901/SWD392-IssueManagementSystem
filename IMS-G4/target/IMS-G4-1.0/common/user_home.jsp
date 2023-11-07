@@ -111,6 +111,20 @@ if (user != null) {
                             </a>
                         </div>
                     </div>
+                    <div class="row" style="padding-top: 30px">
+                        <div class="col-lg-6 col-12">
+                            <a href="issue-list">
+                                <div class="single-info">
+                                    <div class="content">
+                                        <h3>View Issue List</h3>
+                                        <p>View issue of joined projects.</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                   
+                    
                     <% } else if (userRole.equals("student")) { %>
                     <!-- Student features -->
                     <div class="row" style="padding-top: 30px">
@@ -149,6 +163,18 @@ if (user != null) {
                             </a>
                         </div>
                     </div>
+                    <div class="row" style="padding-top: 30px">
+                        <div class="col-lg-6 col-12">
+                            <a href="issue-list">
+                                <div class="single-info">
+                                    <div class="content">
+                                        <h3>View Issue List</h3>
+                                        <p>View issue of joined projects.</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
                     <% } else if (userRole.equals("manager")) { %>
                     <!-- Manager features -->
                     <div class="row" style="padding-top: 30px">
@@ -168,6 +194,18 @@ if (user != null) {
                                     <div class="content">
                                         <h3>Manage Subject</h3>
                                         <p>Manage assigned subject</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-top: 30px">
+                        <div class="col-lg-6 col-12">
+                            <a href="issue-list">
+                                <div class="single-info">
+                                    <div class="content">
+                                        <h3>View Issue List</h3>
+                                        <p>View issue of joined projects.</p>
                                     </div>
                                 </div>
                             </a>

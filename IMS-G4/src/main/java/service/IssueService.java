@@ -3,35 +3,50 @@ package service;
 import model.Issue;
 
 import dao.IssueDAO;
+import dao.UserDAO;
+import java.util.ArrayList;
 import java.util.List;
 
 public class IssueService {
 
     private IssueDAO issueDAO;
+    private UserDAO userDAO;
 
     public IssueService() {
         issueDAO = new IssueDAO();
+        userDAO = new UserDAO();
+
     }
 
     public List<Issue> getAllIssues() {
-        // You can add any additional business logic or validation here
         return issueDAO.getAllIssues();
     }
 
     public List<Issue> getIssuesForCurrentUser(int userId) {
-        // You can add any additional business logic or validation here
-        return issueDAO.getIssuesForCurrentUser(userId);
+        String userRole = userDAO.getUserRoleById(userId);
+
+        if ("admin".equals(userRole)) {
+            // Logic for admin user
+            return issueDAO.getAllIssues();
+        } else if ("manager".equals(userRole)) {
+            // Logic for manager user
+            return issueDAO.getAllIssues();
+        } else if ("teacher".equals(userRole)) {
+            // Logic for teacher user
+            return issueDAO.getIssuesForTeacher(userId);
+        } else if ("student".equals(userRole)) {
+            // Logic for student user
+            return issueDAO.getIssuesForStudent(userId);
+        }
+        return new ArrayList<>(); // Return an empty list
     }
 
     public boolean addIssue(Issue issue, String issueType, String issueStatus) {
-        // You can add any additional business logic or validation here
-        return issueDAO.insertNewIssue(issue,issueType,issueStatus);
-    }
-    public Issue viewIssueDetails(int issueId) {
-        // Perform any necessary validation or business logic here
-        // ...
 
-        // Call the DAO method to retrieve the issue details
+        return issueDAO.insertNewIssue(issue, issueType, issueStatus);
+    }
+
+    public Issue viewIssueDetails(int issueId) {
         return issueDAO.viewIssueDetails(issueId);
     }
 

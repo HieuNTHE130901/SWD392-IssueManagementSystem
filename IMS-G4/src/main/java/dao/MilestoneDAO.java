@@ -64,7 +64,7 @@ public class MilestoneDAO extends BaseDAO {
         return milestones;
     }
 
-    public List<Milestone> getMilestonesForUser(int userId) {
+    public List<Milestone> getMilestonesForStudent(int userId) {
         List<Milestone> milestones = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -112,4 +112,50 @@ public class MilestoneDAO extends BaseDAO {
 
         return milestones;
     }
+
+    public List<Milestone> getAllMilestones() {
+    List<Milestone> milestones = new ArrayList<>();
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+
+    try {
+        conn = getConnection();
+        String sql = "SELECT m.milestone_id, m.milestone_name\n"
+                + "FROM milestone m";
+
+        stmt = conn.prepareStatement(sql);
+        rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            Milestone milestone = new Milestone();
+            milestone.setMilestoneId(rs.getInt("milestone_id"));
+            milestone.setMilestoneName(rs.getString("milestone_name"));
+
+            milestones.add(milestone);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        // Handle exceptions appropriately
+    } finally {
+        // Close database resources in the reverse order of their creation
+        try {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+    }
+
+    return milestones;
+}
+
 }

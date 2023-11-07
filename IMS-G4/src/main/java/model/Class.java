@@ -11,11 +11,17 @@ package model;
 public class Class {
 
     int classId;
-    String classCode;
-    String className;
-    String status;
-    String semesterId;
-    String subjectId;
+int semesterId;
+int subjectId;
+int teacherId;
+String className;
+String status;
+String description;
+
+    public Class(int classId, String className) {
+        this.classId = classId;
+        this.className = className;
+    }
 
     public int getClassId() {
         return classId;
@@ -25,12 +31,28 @@ public class Class {
         this.classId = classId;
     }
 
-    public String getClassCode() {
-        return classCode;
+    public int getSemesterId() {
+        return semesterId;
     }
 
-    public void setClassCode(String classCode) {
-        this.classCode = classCode;
+    public void setSemesterId(int semesterId) {
+        this.semesterId = semesterId;
+    }
+
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public int getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(int teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String getClassName() {
@@ -49,28 +71,26 @@ public class Class {
         this.status = status;
     }
 
-    public String getSemesterId() {
-        return semesterId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSemesterId(String semesterId) {
-        this.semesterId = semesterId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Class(int classId, String className) {
+    public Class(int classId, int semesterId, int subjectId, int teacherId, String className, String status, String description) {
         this.classId = classId;
-        this.className = className;
-    }
-
-    public String getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(String subjectId) {
+        this.semesterId = semesterId;
         this.subjectId = subjectId;
+        this.teacherId = teacherId;
+        this.className = className;
+        this.status = status;
+        this.description = description;
     }
 
     public Class() {
     }
+
 
 }

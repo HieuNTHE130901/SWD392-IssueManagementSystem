@@ -16,9 +16,7 @@ import java.util.Map;
  *
  * @author trung
  */
-public class IssueDAO extends BaseDAO{
-
-    
+public class IssueDAO extends BaseDAO {
 
     public List<Issue> getAllIssues() {
         List<Issue> issues = new ArrayList<>();
@@ -28,24 +26,30 @@ public class IssueDAO extends BaseDAO{
 
         try {
             conn = getConnection();
-            String query = "SELECT "
-                    + "i.issue_id, "
-                    + "p.project_code, "
-                    + "c.class_name, "
-                    + "s.subject_code, "
-                    + "ua.full_name AS assigner_name, "
-                    + "ue.full_name AS assignee_name, "
-                    + "i.created_date, "
-                    + "i.updated_date, "
-                    + "i.description "
-                    + "FROM "
-                    + "issue i "
-                    + "JOIN project p ON i.project_id = p.project_id "
-                    + "JOIN class c ON p.class_id = c.class_id "
-                    + "JOIN subject s ON c.subject_id = s.subject_id "
-                    + "JOIN user ua ON i.assigner_id = ua.user_id "
-                    + "JOIN user ue ON i.assignee_id = ue.user_id";
+            String query = "SELECT\n"
+                    + "    i.issue_id,\n"
+                    + "    p.project_code,\n"
+                    + "    c.class_name,\n"
+                    + "    s.subject_code,\n"
+                    + "    ua.full_name AS assigner_name,\n"
+                    + "    ue.full_name AS assignee_name,\n"
+                    + "    i.created_date,\n"
+                    + "    i.updated_date,\n"
+                    + "    ist.issue_type,\n"
+                    + "    ist.issue_status,\n"
+                    + "    i.description\n"
+                    + "FROM\n"
+                    + "    issue i\n"
+                    + "    JOIN project p ON i.project_id = p.project_id\n"
+                    + "    JOIN class c ON p.class_id = c.class_id\n"
+                    + "    JOIN subject s ON c.subject_id = s.subject_id\n"
+                    + "    JOIN `user` ua ON i.assigner_id = ua.user_id\n"
+                    + "    JOIN `user` ue ON i.assignee_id = ue.user_id\n"
+                    + "    JOIN issue_setting ist ON i.issue_id = ist.issue_id"
+                    + " ORDER BY i.issue_id";  // Added ORDER BY clause
+
             ps = conn.prepareStatement(query);
+
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -60,6 +64,8 @@ public class IssueDAO extends BaseDAO{
                 java.sql.Date updatedDate = rs.getDate("updated_date");
                 issue.setCreatedDate(createdDate);
                 issue.setUpdatedDate(updatedDate);
+                issue.setIssueType(rs.getString("issue_type"));
+                issue.setIssueStatus(rs.getString("issue_status"));
                 issue.setDescription(rs.getString("description"));
 
                 issues.add(issue);
@@ -82,11 +88,10 @@ public class IssueDAO extends BaseDAO{
                 e.printStackTrace(); // Handle the exception properly in your application
             }
         }
-
         return issues;
     }
 
-    public List<Issue> getIssuesForCurrentUser(int userId) {
+    public List<Issue> getIssuesForStudent(int userId) {
         List<Issue> issues = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -120,10 +125,89 @@ public class IssueDAO extends BaseDAO{
                     + "        FROM project_member pm\n"
                     + "        JOIN `user` u ON pm.member_id = u.user_id\n"
                     + "        WHERE u.user_id = ?\n"
-                    + "    );";
+                    + "    )\n"
+                    + "ORDER BY i.issue_id; ";
 
             ps = conn.prepareStatement(query);
             ps.setInt(1, userId); // Set the user ID parameter
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Issue issue = new Issue();
+                issue.setIssueId(rs.getInt("issue_id"));
+                issue.setProjectCode(rs.getString("project_code"));
+                issue.setClassName(rs.getString("class_name"));
+                issue.setSubjectCode(rs.getString("subject_code"));
+                issue.setAssignerName(rs.getString("assigner_name"));
+                issue.setAssigneeName(rs.getString("assignee_name"));
+                java.sql.Date createdDate = rs.getDate("created_date");
+                java.sql.Date updatedDate = rs.getDate("updated_date");
+                issue.setCreatedDate(createdDate);
+                issue.setUpdatedDate(updatedDate);
+                issue.setIssueType(rs.getString("issue_type"));
+                issue.setIssueStatus(rs.getString("issue_status"));
+                issue.setDescription(rs.getString("description"));
+
+                issues.add(issue);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception properly in your application
+        } finally {
+            // Close resources in a finally block
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (ps != null) {
+                    ps.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle the exception properly in your application
+            }
+        }
+
+        return issues;
+    }
+
+    public List<Issue> getIssuesForTeacher(int userId) {
+        List<Issue> issues = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = getConnection();
+            String query = "SELECT\n"
+                    + "    i.issue_id,\n"
+                    + "    p.project_code,\n"
+                    + "    c.class_name,\n"
+                    + "    s.subject_code,\n"
+                    + "    ua.full_name AS assigner_name,\n"
+                    + "    ue.full_name AS assignee_name,\n"
+                    + "    i.created_date,\n"
+                    + "    i.updated_date,\n"
+                    + "    ist.issue_type,\n"
+                    + "    ist.issue_status,\n"
+                    + "    i.description\n"
+                    + "FROM\n"
+                    + "    issue i\n"
+                    + "    JOIN project p ON i.project_id = p.project_id\n"
+                    + "    JOIN class c ON p.class_id = c.class_id\n"
+                    + "    JOIN subject s ON c.subject_id = s.subject_id\n"
+                    + "    JOIN `user` ua ON i.assigner_id = ua.user_id\n"
+                    + "    JOIN `user` ue ON i.assignee_id = ue.user_id\n"
+                    + "    JOIN issue_setting ist ON i.issue_id = ist.issue_id\n"
+                    + "WHERE\n"
+                    + "    c.teacher_id = ?\n"
+                    + "    \n"
+                    + "ORDER BY i.issue_id";
+
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, userId); // Set the teacher's user ID parameter
 
             rs = ps.executeQuery();
 
@@ -431,20 +515,18 @@ public class IssueDAO extends BaseDAO{
 
         return issue; // Return the retrieved issue object, or null if no issue is found
     }
-    
-    
-    public Map<String, Map<String, Integer>> getIssueStatusComplexity(int projectId) {
-        String query = "SELECT iss.issue_status, " +
-                "COUNT(CASE WHEN iss.issue_complexity = 'Complex' THEN 1 END) AS complex_value, " +
-                "COUNT(CASE WHEN iss.issue_complexity = 'Medium' THEN 1 END) AS medium_value, " +
-                "COUNT(CASE WHEN iss.issue_complexity = 'Simple' THEN 1 END) AS simple_value " +
-                "FROM issue_setting AS iss " +
-                "INNER JOIN issue AS i ON iss.issue_id = i.issue_id " +
-                "WHERE i.project_id = ? " +
-                "GROUP BY iss.issue_status";
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+    public Map<String, Map<String, Integer>> getIssueStatusComplexity(int projectId) {
+        String query = "SELECT iss.issue_status, "
+                + "COUNT(CASE WHEN iss.issue_complexity = 'Complex' THEN 1 END) AS complex_value, "
+                + "COUNT(CASE WHEN iss.issue_complexity = 'Medium' THEN 1 END) AS medium_value, "
+                + "COUNT(CASE WHEN iss.issue_complexity = 'Simple' THEN 1 END) AS simple_value "
+                + "FROM issue_setting AS iss "
+                + "INNER JOIN issue AS i ON iss.issue_id = i.issue_id "
+                + "WHERE i.project_id = ? "
+                + "GROUP BY iss.issue_status";
+
+        try (Connection conn = getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
             stmt.setInt(1, projectId);
 
