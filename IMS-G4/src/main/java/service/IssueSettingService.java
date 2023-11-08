@@ -15,11 +15,7 @@ public class IssueSettingService {
         return issueSettingDAO.getIssueSettingById(issueId);
     }
 
-    public boolean updateIssueSetting(int issueId, String issueType, String issueStatus, String workingProcess, String issueComplexity) {
-        // Perform any necessary validation or business logic here
-        // ...
-
-        // Call the DAO method to update the issue setting
+    public boolean updateIssueSetting(int issueId, String issueType, String issueStatus, String workingProcess, String issueComplexity) {      
         return issueSettingDAO.updateIssueSetting(issueId, issueType, issueStatus, workingProcess, issueComplexity);
     }
 }

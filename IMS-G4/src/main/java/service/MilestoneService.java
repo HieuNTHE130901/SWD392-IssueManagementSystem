@@ -38,5 +38,9 @@ public class MilestoneService {
         }
         return new ArrayList<>(); // Return an empty list
     }
+    
+    public List<Milestone> getMilestonesForProject(int projectId) {
+        return milestoneDAO.getMilestonesForProject(projectId);
+    }
 
 }

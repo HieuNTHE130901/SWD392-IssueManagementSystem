@@ -18,6 +18,7 @@ import java.util.Map;
  */
 public class IssueDAO extends BaseDAO {
 
+    //Get issues list for Admin and Manager
     public List<Issue> getAllIssues() {
         List<Issue> issues = new ArrayList<>();
         Connection conn = null;
@@ -91,6 +92,7 @@ public class IssueDAO extends BaseDAO {
         return issues;
     }
 
+    //Get issues list for student
     public List<Issue> getIssuesForStudent(int userId) {
         List<Issue> issues = new ArrayList<>();
         Connection conn = null;
@@ -173,6 +175,7 @@ public class IssueDAO extends BaseDAO {
         return issues;
     }
 
+    //Get issues list for teacher
     public List<Issue> getIssuesForTeacher(int userId) {
         List<Issue> issues = new ArrayList<>();
         Connection conn = null;
@@ -251,49 +254,7 @@ public class IssueDAO extends BaseDAO {
         return issues;
     }
 
-    public boolean addIssue(Issue issue) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        try {
-            conn = getConnection();
-            String query = "INSERT INTO issue (project_id, milestone_id, assigner_id, assignee_id, description, created_date, updated_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            ps = conn.prepareStatement(query);
-
-            // Set the values for the prepared statement
-            ps.setInt(1, issue.getProjectId());
-            ps.setInt(2, issue.getMilestoneId());
-            ps.setInt(3, issue.getAssignerId());
-            ps.setInt(4, issue.getAssigneeId());
-            ps.setString(5, issue.getDescription());
-            ps.setTimestamp(6, new Timestamp(issue.getCreatedDate().getTime()));
-            ps.setTimestamp(7, new Timestamp(issue.getUpdatedDate().getTime()));
-
-            int rowsAffected = ps.executeUpdate();
-
-            // Check if the insert was successful
-            if (rowsAffected > 0) {
-                return true; // Issue added successfully
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception properly in your application
-        } finally {
-            // Close resources in a finally block
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace(); // Handle the exception properly in your application
-            }
-        }
-
-        return false; // Insertion failed
-    }
-
+    //Add a new issue to project
     public boolean insertNewIssue(Issue issue, String issueType, String issueStatus) {
         Connection connection = null;
         PreparedStatement issueStatement = null;
@@ -374,60 +335,10 @@ public class IssueDAO extends BaseDAO {
             }
         }
 
-        return false; // Issue or issue setting insertion failed
+        return false; 
     }
 
-    public Issue getIssueById(String issueId) {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
-        try {
-            // Establish a database connection
-            connection = getConnection();
-
-            // Prepare the SQL statement
-            String sql = "SELECT * FROM issue WHERE issue_id = ?";
-            statement = connection.prepareStatement(sql);
-            statement.setString(1, issueId);
-
-            // Execute the query
-            resultSet = statement.executeQuery();
-
-            // Check if the issue was found
-            if (resultSet.next()) {
-                // Retrieve the issue data from the result set
-                Issue issue = new Issue();
-                issue.setIssueId(resultSet.getInt("issue_id"));
-                // Set other properties of the issue object
-
-                // Return the issue object
-                return issue;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any potential exceptions
-        } finally {
-            // Close the database resources
-            try {
-                if (resultSet != null) {
-                    resultSet.close();
-                }
-                if (statement != null) {
-                    statement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                // Handle any potential exceptions
-            }
-        }
-
-        return null; // Issue not found
-    }
-
+    //View issue's details information
     public Issue viewIssueDetails(int issueId) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -513,9 +424,10 @@ public class IssueDAO extends BaseDAO {
             }
         }
 
-        return issue; // Return the retrieved issue object, or null if no issue is found
+        return issue; 
     }
 
+    //
     public Map<String, Map<String, Integer>> getIssueStatusComplexity(int projectId) {
         String query = "SELECT iss.issue_status, "
                 + "COUNT(CASE WHEN iss.issue_complexity = 'Complex' THEN 1 END) AS complex_value, "

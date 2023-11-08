@@ -48,9 +48,30 @@
                     </c:forEach>
                 </select>
 
-                <!-- Assignee is the current user -->
-                <label for="assignee">Assignee:</label>
-                <input type="text" id="assignee" name="assignee" value="${user.fullName}" required readonly>
+                <!-- Assigner is the current user -->
+                <label for="assigner">Assigner:</label>
+                <input type="text" id="assigner" name="assigner" value="${user.fullName}" required readonly>
+                
+                
+                <!-- Assignee is selected from combobox -->
+                <label for="assignee">Assignee: </label>
+                <select id="assignee" name="assignee" required>
+                    <option value="">Select an assignee</option>
+                    <c:forEach items="${studentList}" var="student">
+                        <option value="${student.userId}">${student.fullName}</option>
+                    </c:forEach>
+                </select>
+
+                <!-- Issue Type dropdown -->
+                <label for="issueType">Issue Type:</label>
+                <select id="issueType" name="issueType" required>
+                    <option value="">Select an Issue Type</option>                
+                    <option value="Q&A">Q&A</option>
+                    <option value="Task">Task</option>
+                    <option value="Defect">Defect</option>                
+                    <option value="Other Issues">Other Issues</option>
+                </select>
+                
 
                 <!-- Issue Type dropdown -->
                 <label for="issueType">Issue Type:</label>

@@ -86,7 +86,7 @@ public class IssueEditController extends HttpServlet {
             }
         }
 
-        // If the issue ID is invalid or the update is not successful, redirect to an error page or a relevant URL
+        // If the issue ID is invalid or the update is not successful
         response.sendRedirect("/IMS-G4/error");
     }
 }
